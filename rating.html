@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Foodieus - Rating</title>
+    <link rel="stylesheet" href="1.css" />
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sga512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXge10g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body {
+            background-color: #fac031;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        h1 {
+            font-weight: bold;
+            margin-bottom: 40px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            background: white;
+            padding: 25px 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgb(0 0 0 / 0.1);
+        }
+
+        .star-widget {
+            display: block;
+            margin-bottom: 20px;
+        }
+
+        .star-widget input[type="radio"] {
+            display: none;
+        }
+
+        .star-widget label {
+            font-size: 30px;
+            color: #ccc;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            margin: 0 5px;
+        }
+
+        .star-widget input[type="radio"]:checked ~ label,
+        .star-widget label:hover,
+        .star-widget label:hover ~ label {
+            color: #ffc107;
+        }
+
+        textarea {
+            width: 100%;
+            resize: vertical;
+            min-height: 80px;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1.5px solid #ccc;
+            font-size: 1em;
+            margin-bottom: 15px;
+            font-family: inherit;
+        }
+
+        .btn {
+            text-align: right;
+        }
+
+        button {
+            background-color: #e67e22;
+            border: none;
+            color: white;
+            font-size: 1em;
+            padding: 10px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #cf711b;
+        }
+
+        .post {
+            display: none;
+            margin-top: 20px;
+            color: #2c662d;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .post .edit {
+            margin-top: 12px;
+            font-size: 0.9em;
+            color: #007bff;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Rating</h1>
+    <div class="container">
+        <form id="ratingForm" action="#" method="POST" novalidate>
+            <div class="star-widget">
+                <input type="radio" name="rate" id="rate-5" value="5" />
+                <label for="rate-5" class="fas fa-star" aria-label="5 stars"></label>
+
+                <input type="radio" name="rate" id="rate-4" value="4" />
+                <label for="rate-4" class="fas fa-star" aria-label="4 stars"></label>
+
+                <input type="radio" name="rate" id="rate-3" value="3" />
+                <label for="rate-3" class="fas fa-star" aria-label="3 stars"></label>
+
+                <input type="radio" name="rate" id="rate-2" value="2" />
+                <label for="rate-2" class="fas fa-star" aria-label="2 stars"></label>
+
+                <input type="radio" name="rate" id="rate-1" value="1" />
+                <label for="rate-1" class="fas fa-star" aria-label="1 star"></label>
+            </div>
+
+            <div class="textarea">
+                <textarea name="review" id="review" placeholder="Describe your experience..." required></textarea>
+            </div>
+
+            <div class="btn">
+                <button type="submit">Post</button>
+            </div>
+        </form>
+
+        <div class="post">
+            <div class="text">Thanks for rating us!</div>
+            <div class="edit" role="button" tabindex="0">Edit</div>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('ratingForm');
+        const post = document.querySelector(".post");
+        const widget = document.querySelector(".star-widget");
+        const editBtn = document.querySelector(".edit");
+
+        form.addEventListener("submit", function (e) {
+            e.preventDefault(); // Prevent form submission reload
+
+            // Optional: You can add validation here if needed
+            const rating = form.rate.value;
+            const review = form.review.value.trim();
+
+            if (!rating) {
+                alert("Please select a star rating.");
+                return;
+            }
+            if (!review) {
+                alert("Please write a review.");
+                return;
+            }
+
+            // Show thank you message, hide form
+            form.style.display = "none";
+            post.style.display = "block";
+        });
+
+        editBtn.addEventListener("click", () => {
+            post.style.display = "none";
+            form.style.display = "block";
+            form.review.value = "";
+            form.rate.forEach(radio => radio.checked = false);
+        });
+
+        // Accessibility: allow 'Enter' key on edit div
+        editBtn.addEventListener("keydown", (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                editBtn.click();
+            }
+        });
+    </script>
+</body>
+
+</html>
